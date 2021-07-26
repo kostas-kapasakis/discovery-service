@@ -1,25 +1,22 @@
 import {Request, Response, Router} from 'express';
 import groupsRouter from "./groups";
+import {Group, mapToAllGroupsDto} from "../models/group";
 
 const routes = Router();
 
-routes.get('/', (req: Request, res: Response) => {
-    res.send('<h1>Discovery Service</h1>');
+routes.get('/', async (req: Request, res: Response) => {
+    let dtoToReturn = [];
 
-    /*
-    Will have to return the below data structure
+    try {
+        for await (const doc of Group.find()) {
+            if (doc.instances.length > 0) dtoToReturn.push(mapToAllGroupsDto(doc));
+        }
 
-    {
-        "group": "particle-detector",
-        "instances": "4",               // the number of registered instances in this group
-        "createdAt": 1571418124127,     // first heartbeat registered in this group
-        "lastUpdatedAt": 1571418124127, // last heartbeat registered in this group
-    },
-    // ...
-]
-
-     */
-
+        res.send(dtoToReturn);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({message: 'internal server error'});
+    }
 });
 
 routes.use('/', groupsRouter);
