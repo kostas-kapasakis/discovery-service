@@ -41,13 +41,7 @@ groupsRouter.delete('/:group/:id', async (req: Request, res: Response) => {
         id
     };
     try {
-        await Instance.findByIdAndRemove(id).session(session);
-
-        await Group.findOneAndUpdate({name: group}, {
-                "$pull": {"instances": id}, updatedAt: Date.now()
-            },
-            {upsert: true, new: true, multi: true}).session(session);
-
+        await Instance.removeInstance(id, group, session);
         await session.commitTransaction();
     } catch (e) {
         console.log(e);

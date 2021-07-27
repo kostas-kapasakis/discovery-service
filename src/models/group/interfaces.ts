@@ -16,25 +16,16 @@ export interface GroupDocument extends Document {
 
 export interface GroupModel extends Model<GroupDocument> {
     build(args: IGroup): GroupDocument;
-
-    createOrUpdate(name: string, clientId: string, session?: mongoose.ClientSession): Promise<GroupDocument>;
+    createOrUpdate(name: string, clientId: string, session?: mongoose.ClientSession): Promise<GroupDocument>
 }
 
 
 export type GroupsDto = {
     group: string;
-    instances: number;
+    instances: number
     createdAt: number;
     lastUpdatedAt: number;
 }
-
-export type GroupExtendedDto = {
-    name: string;
-    instances: InstanceDocument[];
-    createdAt: number;
-    updatedAt: number;
-}
-
 
 export const mapToGroupInstancesDto = (doc: GroupDocument): InstanceDto[] => {
     return doc.instances.map((instance: InstanceDocument) => mapToInstanceDto(instance))
