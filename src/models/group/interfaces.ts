@@ -10,8 +10,8 @@ export interface IGroup {
 export interface GroupDocument extends Document {
     name: string;
     instances: PopulatedDoc<InstanceDocument & Document>;
-    createdAt: Number;
-    updatedAt: Number;
+    createdAt: number;
+    updatedAt: number;
 }
 
 export interface GroupModel extends Model<GroupDocument> {
@@ -24,15 +24,15 @@ export interface GroupModel extends Model<GroupDocument> {
 export type GroupsDto = {
     group: string;
     instances: number;
-    createdAt: Number;
-    lastUpdatedAt: Number;
+    createdAt: number;
+    lastUpdatedAt: number;
 }
 
 export type GroupExtendedDto = {
     name: string;
     instances: InstanceDocument[];
-    createdAt: Number;
-    updatedAt: Number;
+    createdAt: number;
+    updatedAt: number;
 }
 
 

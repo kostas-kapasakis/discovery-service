@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import {Instance, InstanceSchema} from "./schema";
-import {IInstance, InstanceDocument, InstanceDto, mapToInstanceDto} from "./interfaces";
+import {IInstance, InstanceDto, mapToInstanceDto} from "./interfaces";
 
-export const setInstanceHelpers = () => {
+export const setInstanceHelpers = (): void => {
     InstanceSchema.statics.build = (args: IInstance) => {
         return new Instance(args);
     }
@@ -12,14 +12,12 @@ export const setInstanceHelpers = () => {
                                                        group,
                                                        meta
                                                    }: IInstance, session: mongoose.ClientSession): Promise<InstanceDto> => {
-        let appInstance: InstanceDocument;
 
-        if (!await Instance.exists({_id: _id}))
-            appInstance = Instance.build({_id, meta, group});
-        else
-            appInstance = await Instance.findByIdAndUpdate(_id,
-                {updatedAt: Date.now()},
-                {upsert: true, new: true, setDefaultsOnInsert: true}).session(session);
+        let appInstance = await Instance.findById(_id).session(session);
+
+        if (!appInstance) appInstance = Instance.build({_id, meta, group});
+
+        appInstance.updatedAt = Date.now();
 
         await appInstance.save();
 
