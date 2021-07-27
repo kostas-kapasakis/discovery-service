@@ -3,6 +3,7 @@ import {Instance, InstanceSchema} from "./schema";
 import {IInstance, InstanceDto, mapToInstanceDto} from "./interfaces";
 import {Group} from "../group";
 import {APP_INSTANCE_AGE} from "../../config";
+import {logger} from "../../utils";
 
 export const setInstanceHelpers = (): void => {
     InstanceSchema.statics.build = (args: IInstance) => {
@@ -36,16 +37,20 @@ export const setInstanceHelpers = (): void => {
     }
 
     InstanceSchema.statics.removeExpired = async (): Promise<void> => {
+        let cleanedInstances: string[] = [];
+
         for await (const doc of Instance.find()) {
 
             const age = (new Date().getTime() / 1000) - doc.updatedAt;
 
-            console.log(`Age of instance with id ${doc._id} is ${age} seconds or ${age / 60} minutes`);
-
             if (age > APP_INSTANCE_AGE) {
+                cleanedInstances.push(doc._id);
                 await Instance.removeInstance(doc._id, doc.group)
             }
         }
+
+        logger.info(`Healthcheck : Removed Expired instances , Total: ${cleanedInstances.length} , [${cleanedInstances.join(',')}]`);
+
     }
 
 }
