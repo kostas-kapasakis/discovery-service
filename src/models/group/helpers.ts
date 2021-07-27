@@ -2,36 +2,23 @@ import mongoose from "mongoose";
 import {Group, GroupSchema} from "./schema";
 import {GroupDocument, IGroup} from "./interfaces";
 
-export const setGroupHelpers = () => {
-
+export const setGroupHelpers = (): void => {
 
     GroupSchema.statics.build = (args: IGroup) => {
         return new Group(args);
     }
 
     GroupSchema.statics.createOrUpdate = async (name: string, clientId: string, session: mongoose.ClientSession): Promise<GroupDocument> => {
-        let group = await Group.findOne({name});
+        let group = await Group.findOne({name}).session(session);
 
         if (!group) group = Group.build({name, instances: [clientId]});
-        else
-            group = group.instances.indexOf(clientId) > 0 ?
-                await updateGroup(name, false, clientId, session) :
-                await updateGroup(name, true, clientId, session);
+        else if (group.instances.indexOf(clientId) < 0) group.instances.push(clientId);
 
-        await group?.save();
+        group.updatedAt = Date.now();
 
-        return group as GroupDocument;
+        await group.save();
 
+        return group;
     }
 }
-
-const updateGroup = (name: string, isNewClientId: boolean, clientId: string, session: mongoose.ClientSession): mongoose.Query<any, GroupDocument> => {
-    return Group.findOneAndUpdate({name},
-        isNewClientId ?
-            {"$push": {"instances": clientId}, updatedAt: Date.now()} :
-            {updatedAt: Date.now()},
-        {upsert: true, new: true, setDefaultsOnInsert: true})
-        .session(session);
-}
-
 

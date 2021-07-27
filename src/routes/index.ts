@@ -5,7 +5,7 @@ import {Group, mapToAllGroupsDto} from "../models/group";
 const routes = Router();
 
 routes.get('/', async (req: Request, res: Response) => {
-    let dtoToReturn = [];
+    const dtoToReturn = [];
 
     try {
         for await (const doc of Group.find()) {

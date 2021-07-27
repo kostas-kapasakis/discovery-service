@@ -3,14 +3,14 @@ import mongoose from "mongoose";
 export interface IInstance {
     _id: string;
     group: string;
-    meta?: any
+    meta?: Record<string, unknown>
 }
 
 export interface InstanceDocument extends mongoose.Document {
     group: string;
-    meta?: any
-    createdAt: Number;
-    updatedAt: Number;
+    meta?: Record<string, unknown>
+    createdAt: number;
+    updatedAt: number;
 }
 
 export interface InstanceModel extends mongoose.Model<InstanceDocument> {
@@ -21,10 +21,10 @@ export interface InstanceModel extends mongoose.Model<InstanceDocument> {
 
 export type InstanceDto = {
     id: string;
-    meta?: any;
+    meta?: Record<string, unknown>;
     group: string;
-    createdAt: Number;
-    updatedAt: Number;
+    createdAt: number;
+    updatedAt: number;
 }
 
 export const mapToInstanceDto = ({_id, meta, group, createdAt, updatedAt}: InstanceDocument): InstanceDto => {
