@@ -1,6 +1,7 @@
 import {Request, Response, Router} from 'express';
 import groupsRouter from "./groups";
 import {Group, mapToAllGroupsDto} from "../models/group";
+import {logger} from "../utils";
 
 const routes = Router();
 
@@ -14,7 +15,7 @@ routes.get('/', async (req: Request, res: Response) => {
 
         res.send(dtoToReturn);
     } catch (e) {
-        console.log(e);
+        logger.error('Error on getting group info', e);
         res.status(500).json({message: 'internal server error'});
     }
 });

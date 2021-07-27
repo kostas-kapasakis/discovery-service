@@ -3,12 +3,15 @@ import {Group, mapToGroupInstancesDto} from '../models/group';
 import {Instance, InstanceDto} from "../models/instance";
 import mongoose from "mongoose";
 import {GroupDocument} from "../models/group/interfaces";
+import {logger} from "../utils";
 
 const groupsRouter = Router();
 
 groupsRouter.post('/:group/:id', async (req: Request, res: Response) => {
     const {meta} = req.body;
     const {id, group} = req.params;
+
+    logger.info(`Request: /:group/:id for group ${group} and instance ${id}`);
 
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -20,7 +23,7 @@ groupsRouter.post('/:group/:id', async (req: Request, res: Response) => {
         appInstance = await Instance.createOrUpdate({_id: id, group, meta}, session)
         await session.commitTransaction();
     } catch (e) {
-        console.log(e);
+        logger.error('Error for group ${group} and instance ${id}', e)
         await session.abortTransaction();
         res.status(500).json({message: 'internal server error'});
     } finally {
@@ -44,7 +47,7 @@ groupsRouter.delete('/:group/:id', async (req: Request, res: Response) => {
         await Instance.removeInstance(id, group, session);
         await session.commitTransaction();
     } catch (e) {
-        console.log(e);
+        logger.error(`Error for deleting instance ${id} from group ${group}`, e)
         await session.abortTransaction();
         res.status(500).json({message: 'internal server error'});
     } finally {
@@ -65,7 +68,7 @@ groupsRouter.get('/:group', async (req: Request, res: Response) => {
             .then((doc: GroupDocument) => res.send(mapToGroupInstancesDto(doc)));
 
     } catch (e) {
-        console.log(e);
+        logger.error(`Error for getting instances for group ${group} }`, e)
         res.status(500).json({message: 'internal server error'});
     }
 

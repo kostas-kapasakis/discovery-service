@@ -10,3 +10,5 @@ build
 
 *.test.js
 *.spec.js
+combined.log
+error.log
