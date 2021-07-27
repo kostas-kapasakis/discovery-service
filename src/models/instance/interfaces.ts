@@ -17,15 +17,13 @@ export interface InstanceModel extends mongoose.Model<InstanceDocument> {
     build(args: IInstance): InstanceDocument
 
     createOrUpdate(args: IInstance, session?: mongoose.ClientSession): Promise<InstanceDto>
+
+    removeInstance(clientId: string, group: string, session?: mongoose.ClientSession): Promise<void>;
+
+    removeExpired(): Promise<void>;
 }
 
-export type InstanceDto = {
-    id: string;
-    meta?: Record<string, unknown>;
-    group: string;
-    createdAt: number;
-    updatedAt: number;
-}
+export type InstanceDto = Pick<InstanceDocument, 'group' | 'meta' | 'createdAt' | 'updatedAt'> & { id: string; }
 
 export const mapToInstanceDto = ({_id, meta, group, createdAt, updatedAt}: InstanceDocument): InstanceDto => {
     return {

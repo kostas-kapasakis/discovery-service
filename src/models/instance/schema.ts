@@ -4,7 +4,7 @@ import {InstanceDocument, InstanceModel} from "./interfaces";
 import {setInstanceHelpers} from "./helpers";
 
 const opts = {
-    timestamps: {currentTime: () => Date.now()},
+    timestamps: {currentTime: () => Math.floor(Date.now() / 1000)},
 };
 
 export const InstanceSchema = new Schema({

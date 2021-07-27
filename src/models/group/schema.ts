@@ -3,7 +3,7 @@ import {GroupDocument, GroupModel} from './interfaces';
 import {setGroupHelpers} from './helpers';
 
 const opts = {
-    timestamps: {currentTime: () => Date.now()},
+    timestamps: {currentTime: () => Math.floor(Date.now() / 1000)},
 
 };
 
