@@ -14,12 +14,8 @@ export interface InstanceDocument extends mongoose.Document {
 }
 
 export interface InstanceModel extends mongoose.Model<InstanceDocument> {
-    build(args: IInstance): InstanceDocument
-
     createOrUpdate(args: IInstance, session?: mongoose.ClientSession): Promise<InstanceDto>
-
     removeInstance(clientId: string, group: string, session?: mongoose.ClientSession): Promise<void>;
-
     removeExpired(): Promise<void>;
 }
 

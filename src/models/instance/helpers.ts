@@ -6,9 +6,6 @@ import {APP_INSTANCE_AGE} from "../../config";
 import {logger} from "../../utils";
 
 export const setInstanceHelpers = (): void => {
-    InstanceSchema.statics.build = (args: IInstance) => {
-        return new Instance(args);
-    }
 
     InstanceSchema.statics.createOrUpdate = async ({
                                                        _id,
@@ -18,7 +15,7 @@ export const setInstanceHelpers = (): void => {
 
         let appInstance = await Instance.findById(_id).session(session);
 
-        if (!appInstance) appInstance = Instance.build({_id, meta, group});
+        if (!appInstance) [appInstance] = await Instance.create([{_id, meta, group}], {session: session});
 
         appInstance.updatedAt = Date.now();
 
@@ -28,12 +25,18 @@ export const setInstanceHelpers = (): void => {
     }
 
     InstanceSchema.statics.removeInstance = async (id: string, group: string, session: mongoose.ClientSession): Promise<void> => {
-        await Instance.findByIdAndRemove(id).session(session);
-
-        await Group.findOneAndUpdate({name: group}, {
+        const groupDoc = await Group.findOneAndUpdate({name: group}, {
                 "$pull": {"instances": id}, updatedAt: Date.now()
             },
             {upsert: false, multi: true}).session(session);
+
+        if (!groupDoc)
+            throw new Error(`Group does not exist , group: ${group}`);
+
+        if (!groupDoc?.instances.includes(id))
+            throw new Error(`Instance does not belong to group ${group} - id: ${id}`);
+
+        await Instance.findByIdAndRemove(id).session(session);
     }
 
     InstanceSchema.statics.removeExpired = async (): Promise<void> => {

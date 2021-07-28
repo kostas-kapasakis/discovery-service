@@ -6,9 +6,12 @@ import mongoose from 'mongoose';
 import cron from 'node-cron';
 import {Instance} from "./models/instance";
 import {initializeLogger, logger} from "./utils";
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+
+const swaggerDocument = YAML.load('./swagger.yaml');
 
 const app: Express = express();
-
 
 const startServer = () => {
     initializeLogger();
@@ -24,6 +27,7 @@ const registerMiddlewares = (): void => {
     app.use(helmet());
     app.use(express.urlencoded({extended: true}));
     app.use(express.json());
+    app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     app.use(routes);
 }
 
