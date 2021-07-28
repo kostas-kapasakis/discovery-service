@@ -1,0 +1,145 @@
+openapi: 3.0.0
+info:
+  title: Discovery Service
+  description: NodeJS REST Discovery service
+  version: 0.0.1
+servers:
+  - url: 'http://localhost:3000'
+    description: Local server
+paths:
+  /:
+    get:
+      summary: Returns a list of groups with the relevant information.
+      description: >-
+        Gets all the groups that have more than one registered ,active instance
+        and also group timestamps.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupGenericResponse'
+  /{group}:
+    get:
+      summary: Returns a list of instances in the specified group.
+      description: Gets all the instances information in an array of that group
+      parameters:
+        - name: group
+          description: group name
+          required: true
+          in: path
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InstancesResponse'
+  /{group}/{id}:
+    post:
+      summary: >-
+        Registers an instance in the specified group and returns the new
+        instance
+      description: >-
+        Register an instance with the id provided in the specified group,If the
+        group does not exist , its created. If the instance already exists
+        return the updated version.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MetaRequestBody'
+            examples:
+              meta:
+                summary: An example of meta body parameter
+                value:
+                  meta: { description:"sdfsaf" }
+      parameters:
+        - name: group
+          description: group name
+          required: true
+          in: path
+          type: string
+        - name: id
+          description: instance id
+          required: true
+          in: path
+          type: string
+
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstancesResponse'
+    delete:
+      summary: Deletes an instance in the specified group and returns the result
+      description: >-
+        Deletes an instance from the specified group. If teh group doesnt exist
+        or if the instance does not belong to the specified group an error is
+        returned.
+      parameters:
+        - name: group
+          description: group name
+          required: true
+          in: path
+          type: string
+        - name: id
+          description: instance id
+          required: true
+          in: path
+          type: string
+      responses:
+        '204':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceDeleteResponse'
+
+
+
+
+components:
+  schemas:
+    GroupGenericResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        instances:
+          type: number
+        createdAt:
+          type: number
+        lastUpdatedAt:
+          type: number
+    InstancesResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        meta:
+          type: object
+        group:
+          type: string
+        createdAt:
+          type: number
+        updatedAt:
+          type: number
+    InstanceDeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        message:
+          type: string
+    MetaRequestBody:
+      type: object

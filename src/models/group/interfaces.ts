@@ -15,7 +15,6 @@ export interface GroupDocument extends Document {
 }
 
 export interface GroupModel extends Model<GroupDocument> {
-    build(args: IGroup): GroupDocument;
     createOrUpdate(name: string, clientId: string, session?: mongoose.ClientSession): Promise<GroupDocument>
 }
 
