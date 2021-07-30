@@ -7,7 +7,7 @@
     "start": "npm run build && node build/server.js",
     "build": "rimraf build && tsc",
     "lint": "eslint . --ext .ts",
-    "test": "jest --coverage",
+    "test": "jest --coverage --testTimeout=60000",
     "test:watch": "jest --coverage --watchAll"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "http-status-codes": "^2.1.4",
     "husky": "^7.0.1",
     "mockingoose": "^2.15.2",
+    "mongodb-memory-server": "^7.3.4",
     "mongodb-memory-server-core": "^7.3.4",
     "mongoose": "^5.13.3",
     "node-cron": "^3.0.0",

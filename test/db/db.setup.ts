@@ -1,5 +1,5 @@
 import {connect, connection} from 'mongoose';
-import {MongoMemoryReplSet} from "mongodb-memory-server-core";
+import {MongoMemoryReplSet} from "mongodb-memory-server";
 
 let mongoServer: MongoMemoryReplSet;
 

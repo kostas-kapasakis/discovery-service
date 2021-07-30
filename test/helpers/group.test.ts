@@ -13,7 +13,10 @@ describe("test group routes", () => {
 
     afterEach(async () => await db.clearDatabase());
 
-    afterAll(async () => await db.dropDatabaseConnection());
+    afterAll(async () => {
+        jest.setTimeout(30000);
+        await db.dropDatabaseConnection();
+    });
 
     it('Calls the createOrUpdate and saves a new group and a new instance', async () => {
         const session = await startSession();
