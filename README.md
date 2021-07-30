@@ -34,6 +34,9 @@ Endpoints supported :
   - will delete the instance
   - will return the new instance that was deleted
 
+- get '/docs' in the browser:
+  - will navigate you to the swagger ui and the api documentation
+
 ## How to run the api
 
 1) Add one .env file with the following structure
@@ -59,12 +62,12 @@ NODE_ENV:'development'
 
 ### without docker
 
-1) npm i
-2) npm run start:dev
+1) ``npm i``
+2) ``npm run start:dev``
 
 ## How to run the tests and code coverage
 
-1) npm run test
+1) ``npm run test``
 
 ## CI pipeline
 
