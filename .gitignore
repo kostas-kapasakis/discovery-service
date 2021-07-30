@@ -12,3 +12,4 @@ build
 *.spec.js
 combined.log
 error.log
+coverage

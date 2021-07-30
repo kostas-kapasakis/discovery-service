@@ -1,0 +1,11 @@
+{
+  "preset": "ts-jest",
+  "testEnvironment": "node",
+  "testMatch": [
+    "**/test/**/*.test.(ts|js)"
+  ],
+  "moduleFileExtensions": [
+    "ts",
+    "js"
+  ]
+}
