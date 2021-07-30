@@ -74,6 +74,8 @@ NODE_ENV:'development'
 Github actions have been used to support a basic build and run test pipeline You can access the pipeline from the
 following link https://github.com/kostas-kapasakis/discovery-service/actions/workflows/node.js.yml
 
+[![Build and run tests](https://github.com/kostas-kapasakis/discovery-service/actions/workflows/node.js.yml/badge.svg)](https://github.com/kostas-kapasakis/discovery-service/actions/workflows/node.js.yml)
+
 ## CD pipeline
 
 The GitHub repo has been connected with Herocu.
