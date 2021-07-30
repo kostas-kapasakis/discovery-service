@@ -74,4 +74,10 @@ NODE_ENV:'development'
 Github actions have been used to support a basic build and run test pipeline You can access the pipeline from the
 following link https://github.com/kostas-kapasakis/discovery-service/actions/workflows/node.js.yml
 
+## CD pipeline
 
+The GitHub repo has been connected with Herocu.
+
+Any time there is a new commit in the main branch a new release will be trigger in Herocu and will deploy a new version.
+
+The deployed api url is **https://discovery-service-api.herokuapp.com/**
