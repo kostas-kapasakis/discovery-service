@@ -27,14 +27,30 @@ Endpoints supported :
 
 - post '/:group/:id':
 
-    - will register the group if doesnt exist and new instance.If both exist will just update the updatedAt value.
-    - will return the new instance that was created
+  - will register the group if doesnt exist and new instance.If both exist will just update the updatedAt value.
+  - will return the new instance that was created
 - delete '/:group/:id':
 
-    - will delete the instance
-    - will return the new instance that was deleted
+  - will delete the instance
+  - will return the new instance that was deleted
 
 ## How to run the api
+
+1) Add one .env file with the following structure
+
+```
+DB_CONNECTION_STRING=mongoconnectionstring
+APP_INSTANCE_AGE: 60000
+NODE_ENV:'development'
+```
+
+2) In case you want to use a local mongodb create a groups and a instances collection.
+3) You could also use the below test user credentials and the following connection string.
+
+- user: **test**
+- pass: **test**
+- connection string : **mongodb+srv://test:
+  test@discoveryservice-cluste.xaue6.mongodb.net/discovery-service?retryWrites=true&w=majority**
 
 ### With Docker
 
@@ -52,4 +68,7 @@ Endpoints supported :
 
 ## CI pipeline
 
-Github actions have been used to support a basic build and run test pipeline You can access the pipeline from 
+Github actions have been used to support a basic build and run test pipeline You can access the pipeline from the
+following link https://github.com/kostas-kapasakis/discovery-service/actions/workflows/node.js.yml
+
+
