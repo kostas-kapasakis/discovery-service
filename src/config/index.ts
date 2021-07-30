@@ -15,3 +15,6 @@ export const DB_OPTIONS: ConnectionOptions = {
 };
 
 export const APP_INSTANCE_AGE = process.env.APP_INSTANCE_AGE || 30  //sec
+
+
+export const API_URI = process.env.API_URI || 'http://localhost:3000'

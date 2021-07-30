@@ -22,5 +22,9 @@ routes.get('/', async (req: Request, res: Response) => {
 
 routes.use('/', groupsRouter);
 
+routes.all('*', (req, res) => {
+    res.redirect(`config.API_URI/docs`);
+});
+
 
 export default routes;
