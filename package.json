@@ -22,7 +22,6 @@
     "husky": "^7.0.1",
     "mockingoose": "^2.15.2",
     "mongodb-memory-server": "^7.3.4",
-    "mongodb-memory-server-core": "^7.3.4",
     "mongoose": "^5.13.3",
     "node-cron": "^3.0.0",
     "pretty-quick": "^3.1.1",
