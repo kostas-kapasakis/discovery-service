@@ -46,6 +46,7 @@ const registerCronTask = (): void => {
 
 startServer();
 
+export default {app};
 
 
 
