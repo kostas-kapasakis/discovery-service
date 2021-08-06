@@ -23,9 +23,7 @@ groupsRouter.post('/:group/:id', async (req: Request, res: Response) => {
             await Group.createOrUpdate(group, id, session);
             appInstance = await Instance.createOrUpdate({_id: id, group, meta}, session);
         });
-
-        console.log(appInstance);
-
+        
         transactionResults ?
             res.status(StatusCodes.CREATED).send(appInstance) :
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(ReasonPhrases.INTERNAL_SERVER_ERROR);
